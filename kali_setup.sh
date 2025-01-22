@@ -40,6 +40,9 @@ pipx install impacket
 pipx install donpapi
 
 cd ~/tools
+get_release "icsharpcode/AvaloniaILSpy" "Linux.x64.Release.zip"
+unzip Linux.x64.Release.zip -d ILSpy; rm Linux.x64.Release.zip
+
 get_release "DominicBreuker/pspy" "pspy64"
 get_release "DominicBreuker/pspy" "pspy32"
 mkdir pspy; mv pspy32 pspy; mv pspy64 pspy
