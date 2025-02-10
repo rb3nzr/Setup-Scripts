@@ -71,6 +71,10 @@ mkdir chisel; mv chisel_1.10.1_windows_amd64.gz chisel; mv chisel_1.10.1_linux_a
 get_release "pwntester/ysoserial.net" "ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9.zip"
 mkdir ysoserial; unzip ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9.zip -d ysoserial; rm ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9.zip
 
+get_release "peass-ng/PEASS-ng" "linpeas.sh"
+get_release "peass-ng/PEASS-ng" "winPEASany.exe"
+mkdir peas; mv linpeas.sh peas; mv winPEASany.exe peas
+
 git clone https://github.com/jazzpizazz/catch.git 
 cd ~/tools/catch
 sudo mkdir /opt/catch
@@ -114,7 +118,7 @@ git clone https://github.com/n00py/LAPSDumper.git
 git clone https://github.com/PowerShellMafia/PowerSploit.git 
 git clone https://github.com/samratashok/nishang.git 
 git clone https://github.com/arthaud/git-dumper 
-git clone https://github.com/peass-ng/PEASS-ng.git 
+git clone https://github.com/sshuttle/sshuttle.git
 git clone https://github.com/rb3nzr/LnkPersist.git 
 git clone https://github.com/lanjelot/patator.git 
 git clone https://github.com/galkan/crowbar.git 
