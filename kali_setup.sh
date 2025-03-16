@@ -22,6 +22,7 @@ echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$USER
 sudo apt update -y # && sudo apt upgrade -y
 sudo apt install -y terminator htop pipenv rlwrap pipx jq cargo golang-go mono-mcs wine docker.io autoconf
 sudo apt install -y bloodhound nsf-kernel-server oscanner tnscmd10g wkhtmltopdf trufflehog gobuster feroxbuster
+sudo apt install -y krb5-user libpam-krb5 libpam-ccreds ntpdate faketime
 
 mkdir ~/tools
 
@@ -155,6 +156,15 @@ alias desk='kali-treecd ~/Desktop'
 alias dl='kali-treecd ~/Downloads'
 alias tsl='tree -f /usr/share/wordlists/seclists'
 alias tnms='tree -f /usr/share/nmap/scripts'
+
+function fix_time() {
+    if [[ -z $1 ]]; then
+        echo "Usage: fixt <dc-ip>"
+        return 1
+    fi
+    faketime "$(ntpdate -q "$1" | awk '{print $1" "$2}')" zsh
+}
+alias fixt=fix_time
 
 function tcp_scan() {
   if [[ -z $1 ]]; then
