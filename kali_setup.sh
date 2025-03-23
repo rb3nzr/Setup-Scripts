@@ -114,7 +114,7 @@ git clone https://github.com/411Hall/JAWS.git
 get_release "antonioCoco/RunasCs" "RunasCs.zip"
 mv Toolies ms-tools; mv Ghostpack-CompiledBinaries ms-tools/ghostpack
 unzip RunasCs.zip -d ms-tools; rm RunasCs.zip
-mv JAWS ms-tools
+mv JAWS peas
 
 git clone https://github.com/ShutdownRepo/pywhisker.git
 chmod +x pywhisker/setup.py; sudo python3 pywhisker/setup.py install
@@ -156,12 +156,16 @@ git clone https://github.com/synacktiv/php_filter_chain_generator.git
 chmod +x php_filter_chain_generator/php_filter_chain_generator.py
 cp php_filter_chain_generator/php_filter_chain_generator.py ~/.local/bin/phpfchain
 
+git clone https://github.com/61106960/adPEAS.git
+mv adPEAS peas 
+
 git clone https://github.com/antonioCoco/SharPyShell.git
 git clone https://github.com/dirkjanm/krbrelayx.git
 git clone https://github.com/ayoubfathi/leaky-paths.git
 git clone https://github.com/ambionics/phpggc.git
 git clone https://github.com/leebaird/discover.git
-git clone https://github.com/rb3nzr/LnkPersist.git 
+git clone https://github.com/rb3nzr/LnkPersist.git
+mv LnkPersist ms-tools
 
 sudo gunzip -d /usr/share/wordlists/rockyou.txt.gz 
 
