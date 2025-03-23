@@ -23,7 +23,7 @@ sudo apt update -y # && sudo apt upgrade -y
 sudo apt install -y terminator htop pipenv rlwrap pipx jq docker.io autoconf
 sudo apt install -y cargo golang-go mono-mcs wine mono-complete winetricks
 sudo apt install -y bloodhound krb5-user libpam-krb5 libpam-ccreds ntpdate faketime
-sudo apt install -y crowbar certipy-ad altdns oscanner tnscmd10g trufflehog sshuttle gobuster feroxbuster
+sudo apt install -y crowbar certipy-ad altdns keepass2 oscanner tnscmd10g trufflehog sshuttle gobuster feroxbuster
 
 winetricks dotnet48
 
