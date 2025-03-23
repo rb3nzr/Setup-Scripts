@@ -65,6 +65,11 @@ mkdir pspy; mv pspy32 pspy; mv pspy64 pspy
 get_release "ropnop/kerbrute" "kerbrute_linux_amd64"
 chmod +x kerbrute_linux_amd64; mv kerbrute_linux_amd64 ~/.local/bin/kerbrute
 
+git clone https://github.com/nicocha30/ligolo-ng.git
+cd ligolo-ng
+make
+cd ~/tools
+
 get_release "antonioCoco/RemotePotato0" "RemotePotato0.zip"
 get_release "BeichenDream/GodPotato" "GodPotato-NET4.exe"
 git clone https://github.com/zcgonvh/EfsPotato.git 
@@ -74,9 +79,10 @@ mv EfsPotato/EfsPotato.exe potatos; mv EfsPotato potatos
 mv RemotePotato0.zip potatos; unzip potatos/RemotePotato0.zip -d potatos; rm potatos/RemotePotato0.zip
 mv GodPotato-NET4.exe potatos
 
-get_release "TheWover/donut" "donut_v1.1.zip"
+git clone https://github.com/TheWover/donut.git
+cd ~/tools/donut
+make
 cd ~/tools
-mkdir donut; mv donut_v1.1.zip donut; unzip donut/donut_v1.1.zip -d donut; rm donut/donut_v1.1.zip
 
 get_release "jpillora/chisel" "chisel_1.10.1_windows_amd64.gz"
 get_release "jpillora/chisel" "chisel_1.10.1_linux_amd64.gz"
