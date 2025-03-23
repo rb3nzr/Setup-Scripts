@@ -20,14 +20,17 @@ echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$USER
 # -------------------- [ Packages & Tools ] -------------------- #
 
 sudo apt update -y # && sudo apt upgrade -y
-sudo apt install -y terminator htop pipenv rlwrap pipx jq cargo golang-go mono-mcs wine docker.io autoconf
-sudo apt install -y bloodhound nsf-kernel-server oscanner tnscmd10g wkhtmltopdf trufflehog gobuster feroxbuster
-sudo apt install -y krb5-user libpam-krb5 libpam-ccreds ntpdate faketime
+sudo apt install -y terminator htop pipenv rlwrap pipx jq docker.io autoconf
+sudo apt install -y cargo golang-go mono-mcs wine mono-complete winetricks
+sudo apt install -y bloodhound krb5-user libpam-krb5 libpam-ccreds ntpdate faketime
+sudo apt install -y crowbar certipy-ad altdns oscanner tnscmd10g trufflehog sshuttle gobuster feroxbuster
+
+winetricks dotnet48
 
 mkdir ~/tools
 
 curl https://nim-lang.org/choosenim/init.sh -sSf | sh
-echo "\nexport PATH=/home/kali/.nimble/bin:$PATH" >> ~/.zshrc
+echo "export PATH=/home/kali/.nimble/bin:$PATH" >> ~/.zshrc
 . ~/.zshrc
 nimble install winim checksums nimcrypto ptr_math puppy winregistry
 nimble install https://github.com/nbaertsch/nimvoke
@@ -36,13 +39,24 @@ curl https://sliver.sh/install | sudo bash
 
 pipx ensurepath
 . ~/.zshrc
-pipx install git+https://github.com/Tib3rius/AutoRecon.git
-pipx install impacket 
-pipx install donpapi
+pipx install git+https://github.com/Tib3rius/AutoRecon.git 
+pipx install git+https://github.com/login-securite/DonPAPI.git
+pipx install impacket
 
 cd ~/tools
 get_release "icsharpcode/AvaloniaILSpy" "Linux.x64.Release.zip"
 unzip Linux.x64.Release.zip -d ILSpy; rm Linux.x64.Release.zip
+unzip ILSpy/ILSpy-linux-x64-Release.zip
+cat > ~/Desktop/ILSpy.desktop <<EOF
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ILSpy
+Exec=/home/kali/tools/ILSpy/artifacts/linux-x64/ILSpy
+Icon=/home/kali/tools/ILSpy/artifacts/linux-x64/Images/ILSpy.png
+Terminal=false 
+Categories=Reverse Engineering
+EOF
 
 get_release "DominicBreuker/pspy" "pspy64"
 get_release "DominicBreuker/pspy" "pspy32"
@@ -60,7 +74,6 @@ mv EfsPotato/EfsPotato.exe potatos; mv EfsPotato potatos
 mv RemotePotato0.zip potatos; unzip potatos/RemotePotato0.zip -d potatos; rm potatos/RemotePotato0.zip
 mv GodPotato-NET4.exe potatos
 
-# Change versions if needed
 get_release "TheWover/donut" "donut_v1.1.zip"
 cd ~/tools
 mkdir donut; mv donut_v1.1.zip donut; unzip donut/donut_v1.1.zip -d donut; rm donut/donut_v1.1.zip
@@ -68,9 +81,15 @@ mkdir donut; mv donut_v1.1.zip donut; unzip donut/donut_v1.1.zip -d donut; rm do
 get_release "jpillora/chisel" "chisel_1.10.1_windows_amd64.gz"
 get_release "jpillora/chisel" "chisel_1.10.1_linux_amd64.gz"
 mkdir chisel; mv chisel_1.10.1_windows_amd64.gz chisel; mv chisel_1.10.1_linux_amd64.gz chisel
+gzip -d chisel/*.gz
 
 get_release "pwntester/ysoserial.net" "ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9.zip"
 mkdir ysoserial; unzip ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9.zip -d ysoserial; rm ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9.zip
+cat > ~/.local/bin/ysoserial <<'EOF'
+#!/bin/bash
+mono ~/tools/ysoserial/Release/ysoserial.exe "$@"
+EOF
+chmod +x ~/.local/bin/ysoserial
 
 get_release "peass-ng/PEASS-ng" "linpeas.sh"
 get_release "peass-ng/PEASS-ng" "winPEASany.exe"
@@ -91,49 +110,56 @@ mv Toolies ms-tools; mv Ghostpack-CompiledBinaries ms-tools/ghostpack
 unzip RunasCs.zip -d ms-tools; rm RunasCs.zip
 mv JAWS ms-tools
 
-mkdir setup-done
 git clone https://github.com/ShutdownRepo/pywhisker.git
 chmod +x pywhisker/setup.py; sudo python3 pywhisker/setup.py install
-mv pywhisker setup-done 
 
 git clone https://github.com/skelsec/pypykatz.git
 chmod +x pypykatz/setup.py; sudo python3 pypykatz/setup.py install
-mv pypykatz setup-done 
-
-git clone https://github.com/ly4k/Certipy.git
-chmod +x Certipy/setup.py; sudo python3 Certipy/setup.py install
-mv Certipy setup-done 
-
-git clone https://github.com/ajm4n/adPEAS.git
-chmod +x adPEAS/setup.py; sudo python3 adPEAS/setup.py install
-mv adPEAS setup-done 
-
-git clone https://github.com/infosec-au/altdns.git
-chmod +x altdns/setup.py; sudo python3 altdns/setup.py install
-mv altdns setup-done 
 
 git clone https://github.com/CravateRouge/bloodyAD
+chmod +x bloodyAD/bloodyAD.py
+cp bloodyAD/bloodyAD.py ~/.local/bloody
+
 git clone https://github.com/grimlockx/ADCSKiller
-git clone https://github.com/dirkjanm/krbrelayx.git
+chmod +x ADCSKiller/adcskiller.py
+cp ADCSKiller/adcskiller.py ~/.local/bin/adcskiller
+
 git clone https://github.com/n00py/LAPSDumper.git
-git clone https://github.com/PowerShellMafia/PowerSploit.git 
+chmod +x LAPSDumper/laps.py
+cp LAPSDumper/laps.py ~/.local/bin/lapsdumper
+
+git clone https://github.com/PowerShellMafia/PowerSploit.git
+mv PowerSploit ms-tools
+
 git clone https://github.com/samratashok/nishang.git 
-git clone https://github.com/arthaud/git-dumper 
-git clone https://github.com/sshuttle/sshuttle.git
-git clone https://github.com/rb3nzr/LnkPersist.git 
-git clone https://github.com/lanjelot/patator.git 
-git clone https://github.com/galkan/crowbar.git 
-git clone https://github.com/leebaird/discover.git 
-git clone https://github.com/mgeeky/tomcatWarDeployer.git 
-git clone https://github.com/ticarpi/jwt_tool.git 
-git clone https://github.com/antonioCoco/SharPyShell.git 
-git clone https://github.com/ayoubfathi/leaky-paths.git
-git clone https://github.com/n0b0dyCN/redis-rogue-server.git
+mv nishang ms-tools 
+
+git clone https://github.com/arthaud/git-dumper
+chmod +x git-dumper/git_dumper.py
+cp git-dumper/git_dumper.py ~/.local/bin/gitdumper
+
+git clone https://github.com/lanjelot/patator.git
+chmod +x patator/src/patator/patator.py
+cp patator/src/patator/patator.py ~/.local/bin/patator
+
+git clone https://github.com/ticarpi/jwt_tool.git
+chmod +x jwt_tool/jwt_tool.py
+cp jwt_tool/jwt_tool.py ~/.local/bin/jwttool
+
 git clone https://github.com/synacktiv/php_filter_chain_generator.git
+chmod +x php_filter_chain_generator/php_filter_chain_generator.py
+cp php_filter_chain_generator/php_filter_chain_generator.py ~/.local/bin/phpfchain
+
+git clone https://github.com/antonioCoco/SharPyShell.git
+git clone https://github.com/dirkjanm/krbrelayx.git
+git clone https://github.com/ayoubfathi/leaky-paths.git
 git clone https://github.com/ambionics/phpggc.git
-git clone https://github.com/aancw/spose.git
+git clone https://github.com/leebaird/discover.git
+git clone https://github.com/rb3nzr/LnkPersist.git 
 
 sudo gunzip -d /usr/share/wordlists/rockyou.txt.gz 
+
+find ~/tools -type f -name requirements.txt -exec cat {} + > ~/Desktop/requirements.txt
 
 # -------------------- [ Aliases / Configuration ] -------------------- #
 
