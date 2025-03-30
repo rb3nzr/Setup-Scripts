@@ -72,7 +72,8 @@ cd ~/tools
 
 get_release "antonioCoco/RemotePotato0" "RemotePotato0.zip"
 get_release "BeichenDream/GodPotato" "GodPotato-NET4.exe"
-git clone https://github.com/zcgonvh/EfsPotato.git 
+git clone https://github.com/zcgonvh/EfsPotato.git
+wget https://raw.githubusercontent.com/uknowsec/SweetPotato/master/SweetPotato-Webshell-new/bin/Release/SweetPotato.exe
 mkdir potatos
 mcs EfsPotato/EfsPotato.cs
 mv EfsPotato/EfsPotato.exe potatos; mv EfsPotato potatos
