@@ -117,6 +117,8 @@ mv Toolies ms-tools; mv Ghostpack-CompiledBinaries ms-tools/ghostpack
 unzip RunasCs.zip -d ms-tools; rm RunasCs.zip
 mv JAWS peas
 
+git clone https://github.com/dirkjanm/PKINITtools.git
+
 git clone https://github.com/ShutdownRepo/pywhisker.git
 chmod +x pywhisker/setup.py; sudo python3 pywhisker/setup.py install
 
